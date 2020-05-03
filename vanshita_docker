@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+      dbos1:
+        image: mysql:5.7
+        volumes:
+             - mysql_storage:/var/lib/mysql
+        restart: always
+        environment:
+             MYSQL_ROOT_PASSwORD: rootpass
+             MYSQL_USER: vanshita
+             MYSQL_PASSWORD: redhat
+             MYSQL_DATABASE: mydb
+      jos:
+        image: joomla:latest
+        restart: always
+        depends_on:
+             - dbos1
+        ports:
+             - 8081:80
+        environment:
+             JOOMLA_DB_HOST: dbos1:3306
+             JOOMLA_DB_USER: vanshita
+             JOOMLA_DB_PASSWORD: redhat
+             JOOMLA_DB_NAME: mydb
+        volumes:
+             - joomla_storage:/var/www/html
+        
+volumes:
+        joomla_storage:
+        mysql_storage: 
